@@ -32,7 +32,6 @@ jobs:
           yarn lint --format=json --output-file lint-results.json
 
       - name: Result
-        if: github.event_name == 'pull_request' && failure()
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.SL_FE_TOKEN }}
