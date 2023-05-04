@@ -1,0 +1,61 @@
+name: ESLint
+
+on: 
+  pull_request:
+    branches:
+      - develop
+      - test
+      - main
+    types: 
+      - opened
+      - synchronize
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  eslint:
+    name: Check code
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependency
+        run: |
+          yarn --production
+      
+      - name: Lint
+        run: |
+          yarn lint --format=json --output-file lint-results.json
+
+      - name: Result
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.SL_FE_TOKEN }}
+          script: |
+            const lintResults = require('./lint-results.json');
+            const author_association = 'OM5 BOT';
+            let message = "";
+            if (lintResults.length > 0) {
+              message = '#### ❌ ESLint issues\n\n';
+              lintResults.forEach(result => {
+                message += `${result.filePath}\n`;
+                result.messages.forEach(msg => {
+                  message += `${msg.line}:${msg.column} ${msg.message}  (${msg.ruleId})\n`;
+                });
+                message += '\n';
+              });
+            } else {
+              message = '#### ✅ No ESLint issues found.\n';
+            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message,
+              author_association
+            });
