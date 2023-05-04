@@ -18,7 +18,7 @@ const SignInContainer: React.FunctionComponent<Props> = (props) => {
   const { loggedIn, session } = useSelector((state: AppState) => state.session);
   const router = useRouter();
 
-  console.log(loggedIn, session);
+  // console.log(loggedIn, session);
 
   useEffect(() => {
     // dispatch(onSetSession(new SessionVM()));

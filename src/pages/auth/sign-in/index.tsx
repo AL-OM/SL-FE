@@ -19,8 +19,6 @@ const SignInPage: React.FunctionComponent<Props> = (props) => {
 export async function getServerSideProps() {
   const { session, loggedIn } = store.getState().session;
 
-  console.log(session, loggedIn);
-
   return {
     props: { user: JSON.stringify(session.user) }, // will be passed to the page component as props
   };
