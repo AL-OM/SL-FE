@@ -51,7 +51,7 @@ jobs:
                   } else if (msg.severity === 2) {
                     message += '❌';
                   }
-                  message += `${msg.line}:${msg.column} ${msg.message}  (${msg.ruleId})\n`;
+                  message += `  Line: ${msg.line} - ${msg.message} (${msg.ruleId})\n`;
                 });
                 message += '\n';
               });
