@@ -11,7 +11,7 @@ const bindMiddleware = (middleware: any[]) => {
   // return applyMiddleware(...middleware);
   return applyMiddleware(...middleware);
 };
-
+const abbb = 'fdsfads'
 const persistedReducer = persistReducer(PERSIST_CONFIG, rootReducer);
 
 export type AppState = ReturnType<typeof rootReducer>;

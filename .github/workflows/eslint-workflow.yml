@@ -40,14 +40,21 @@ jobs:
             const author_association = 'OM5 BOT';
             let message = "";
             if (lintResults.length > 0) {
-              message = '#### ❌ ESLint issues\n\n';
+              message = '#### 🤡🤡🤡 ESLint issues\n';
               lintResults.forEach(result => {
-                message += `${result.filePath}\n`;
+                message += `${result.filePath}.slice(${result.filePath}.indexOf('src'))\n`;
+                message += `Total ${result.errorCount} error(s) and ${result.warningCount} warning(s)\n`;
                 result.messages.forEach(msg => {
+                  if(${msg.severity} === 1)
+                    message += '🙏🏻';
+                  else if (${msg.severity} === 2)
+                    message += '❌';
                   message += `${msg.line}:${msg.column} ${msg.message}  (${msg.ruleId})\n`;
                 });
                 message += '\n';
               });
+              message += '🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔\n';
+              core.setFailed("ESLint issues found.");
             } else {
               message = '#### ✅ No ESLint issues found.\n';
             }
