@@ -3,4 +3,3 @@ export const routePaths = {
   SignIn: "/auth/sign-in",
   UserRoles: "/users",
 };
-console.log('sdff')
