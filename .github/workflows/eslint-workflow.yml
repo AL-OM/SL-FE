@@ -46,10 +46,11 @@ jobs:
                 message += `${result.filePath}.slice(${result.filePath}.indexOf('src'))\n`;
                 message += `Total ${result.errorCount} error(s) and ${result.warningCount} warning(s)\n`;
                 result.messages.forEach(msg => {
-                  if(${msg.severity} === 1)
+                  if (${msg.severity} === 1) {
                     message += '🙏🏻';
-                  else if (${msg.severity} === 2)
+                  } else if (${msg.severity} === 2) {
                     message += '❌';
+                  }
                   message += `${msg.line}:${msg.column} ${msg.message}  (${msg.ruleId})\n`;
                 });
                 message += '\n';
