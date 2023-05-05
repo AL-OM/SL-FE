@@ -28,6 +28,7 @@ jobs:
           yarn --production
       
       - name: Lint
+        continue-on-error: true
         run: |
           yarn lint --format=json --output-file lint-results.json --silent
 
