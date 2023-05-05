@@ -30,7 +30,7 @@ jobs:
       - name: Lint
         continue-on-error: true
         run: |
-          yarn lint --format=json --output-file lint-results.json --silent
+          yarn lint --format=json --output-file lint-results.json
 
       - name: Result
         uses: actions/github-script@v6
@@ -43,7 +43,7 @@ jobs:
             if (lintResults.length > 0) {
               message = '#### 🤡🤡🤡 ESLint issues\n';
               lintResults.forEach(result => {
-                message += `${result.filePath}.slice(${result.filePath}.indexOf('src'))\n`;
+                message += result.filePath.slice(result.filePath.indexOf('src')) + `\n`;
                 message += `Total ${result.errorCount} error(s) and ${result.warningCount} warning(s)\n`;
                 result.messages.forEach(msg => {
                   if (msg.severity === 1) {
