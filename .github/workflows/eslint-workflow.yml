@@ -1,0 +1,69 @@
+name: ESLint
+
+on: 
+  pull_request:
+    branches:
+      - develop
+      - test
+      - main
+    types: 
+      - opened
+      - synchronize
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  eslint:
+    name: Check code
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependency
+        run: |
+          yarn --production
+      
+      - name: Lint
+        continue-on-error: true
+        run: |
+          yarn lint --format=json --output-file lint-results.json
+
+      - name: Result
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.SL_FE_TOKEN }}
+          script: |
+            const lintResults = require('./lint-results.json');
+            const author_association = 'OM5 BOT';
+            let message = "";
+            if (lintResults.length > 0) {
+              message = '#### 🤡🤡🤡 ESLint issues\n';
+              lintResults.forEach(result => {
+                message += result.filePath.slice(result.filePath.indexOf('src')) + `\n`;
+                message += `Total ${result.errorCount} error(s) and ${result.warningCount} warning(s)\n`;
+                result.messages.forEach(msg => {
+                  if (msg.severity === 1) {
+                    message += '🙏🏻';
+                  } else if (msg.severity === 2) {
+                    message += '❌';
+                  }
+                  message += `  Line: ${msg.line} - ${msg.message} (${msg.ruleId})\n`;
+                });
+                message += '\n';
+              });
+              message += '🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔\n';
+              core.setFailed("ESLint issues found.");
+            } else {
+              message = '#### ✅ No ESLint issues found.\n';
+            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message,
+              author_association
+            });
