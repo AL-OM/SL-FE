@@ -1,0 +1,39 @@
+
+name: Test Site Deploy
+
+on:
+  pull_request:
+    branches:
+      - test
+    types:
+      - closed
+  workflow_dispatch:
+    inputs:
+      manual_start:
+        description: 'Start Build Test'
+        required: true
+        default: ''
+jobs:
+  deploy-test:
+    name: Deploy to test site
+    runs-on: self-hosted
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+    
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-build-test-site
+        with:
+          path: ~/.yarn
+          key: build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+    
+      - name: Install dependencies
+        run: yarn --production
+
+      - name: Build Docker image and deploy to container
+        run: docker-compose up --build --detach --force-recreate
+
+      - name: Remove unused images
+        run: docker image prune -f --filter "dangling=false"
