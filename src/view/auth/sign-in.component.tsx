@@ -9,7 +9,7 @@ interface ComponentProps {
 type Props = ComponentProps;
 
 const SignInComponent: React.FunctionComponent<Props> = (props) => {
-  const [formData, setFormData] = useState<SignInVM>(new SignInVM());
+  // const [formData, setFormData] = useState<SignInVM>(new SignInVM());
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
