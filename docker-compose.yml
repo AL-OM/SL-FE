@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: sl-fe:latest$(date +%Y%m%d)
+    image: sl-fe:latest
     build: ./
     privileged: true
     ports:
