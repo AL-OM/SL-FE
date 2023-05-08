@@ -6,6 +6,7 @@ import { SignInVM } from "@/core/view-models/auth/sign-in-vm";
 import { onThunkSignIn } from "@/view/auth/thunk";
 import { useRouter } from "next/router";
 import { onSetEnabledSpinner } from "@/core/store/reducer/app/actions";
+import { routePaths } from "@/core/navigation/route-paths";
 
 interface ComponentProps {
   user?: any;
@@ -15,10 +16,8 @@ type Props = ComponentProps;
 
 const SignInContainer: React.FunctionComponent<Props> = (props) => {
   const dispatch: Dispatch<any> = useDispatch();
-  const { loggedIn, session } = useSelector((state: AppState) => state.session);
+  const { loggedIn } = useSelector((state: AppState) => state.session);
   const router = useRouter();
-
-  // console.log(loggedIn, session);
 
   useEffect(() => {
     // dispatch(onSetSession(new SessionVM()));
@@ -34,7 +33,7 @@ const SignInContainer: React.FunctionComponent<Props> = (props) => {
     setTimeout(() => {
       dispatch(onSetEnabledSpinner(false));
       dispatch(onThunkSignIn(data));
-      router.push("/users");
+      router.push(routePaths.dashboard);
     }, 1500);
   };
 
