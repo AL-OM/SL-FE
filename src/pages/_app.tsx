@@ -13,6 +13,7 @@ import { TheLayout } from "@/components/layout";
 import { RouteVM } from "@/core/view-models/session/session-vm";
 import Head from "next/head";
 import AuthenticationWrapper from "@/components/wrapper/authendication";
+import ToastContainer, { ToastPositonEnum } from "@/components/toast/toast-container";
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -60,6 +61,10 @@ function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={<Spinner show />}>
         {getLayout()}
+        <ToastContainer
+          duration={5000}
+          position={ToastPositonEnum.TopRight}
+        />
         <Spinner />
       </PersistGate>
     </Provider>

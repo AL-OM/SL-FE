@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
-import { SignInVM } from "@/core/view-models/auth/sign-in-vm";
+import { toast } from "@/components/toast";
 import { UserRoleVM } from "@/core/view-models/user-role/user-role-vm";
-import React, { useCallback, useState } from "react";
+import React from "react";
 
 interface ComponentProps {
   userRoles: UserRoleVM[];
@@ -10,8 +9,6 @@ interface ComponentProps {
 type Props = ComponentProps;
 
 const UserComponent: React.FunctionComponent<Props> = (props) => {
-  const [formData, setFormData] = useState<SignInVM>(new SignInVM());
-
   const renderUserRole = (): React.ReactElement[] => {
     return props.userRoles.map((item) => {
       return (
@@ -26,14 +23,18 @@ const UserComponent: React.FunctionComponent<Props> = (props) => {
     });
   };
 
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const toggleExpansion = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   return (
     <>
+      <button
+        onClick={() => {
+          toast.warn({
+            description: "This is an info toast component",
+            title: "Success",
+          });
+        }}
+      >
+        click
+      </button>
       <div className="relative overflow-x-auto w-full flex items-center justify-center py-4">
         <table
           style={{ width: "400px" }}
