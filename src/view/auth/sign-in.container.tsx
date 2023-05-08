@@ -33,7 +33,7 @@ const SignInContainer: React.FunctionComponent<Props> = (props) => {
     setTimeout(() => {
       dispatch(onSetEnabledSpinner(false));
       dispatch(onThunkSignIn(data));
-      router.push(routePaths.UserRoles);
+      router.push(routePaths.dashboard);
     }, 1500);
   };
 
