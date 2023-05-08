@@ -2,6 +2,9 @@ import { LayoutTypeEnum } from "../lib/constants";
 import { RouteVM } from "../view-models/session/session-vm";
 import { routePaths } from "./route-paths";
 
+// dividing the layout and assigning permissions for each screen.
+// got 2 type of layout - none and mainlayout
+
 const routes: RouteVM[] = [
   {
     path: "/",
